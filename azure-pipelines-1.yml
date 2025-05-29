@@ -1,0 +1,27 @@
+trigger:
+- master  # Or your main branch name (e.g., 'main')
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+
+# ✅ Add Maven build step
+- task: Maven@3
+  displayName: 'Build with Maven'
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean install'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.11'  # Change to '17' if your project uses Java 17
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
